@@ -46,6 +46,37 @@ def explore_data(df):
     plt.savefig(f"{output_folder}/pairplot.png")
     plt.close()
 
+    ### 5. Correlation Heatmap
+    plt.figure(figsize=(16, 12))
+    correlation = df.corr()
+    sns.heatmap(correlation, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+    plt.title("Feature Correlation Heatmap")
+    plt.savefig(f"{output_folder}/correlation_heatmap.png")
+    plt.close()
+
+    ### 6. Histogram by Asset Type
+    plt.figure(figsize=(10, 6))
+    sns.histplot(data=df, x='flowQuantity_delta', hue='asset_type', bins=50, kde=True)
+    plt.xlabel("Water Consumption (in Liters)")
+    plt.ylabel("Frequency")
+    plt.title("Water Usage Distribution by Asset Type")
+    plt.legend(title="Asset Type")
+    plt.savefig(f"{output_folder}/histogram_by_asset_type.png")
+    plt.close()
+
+    ### 7. Daily Average Water Usage
+    df['day'] = df.index.date
+    daily_avg = df.groupby('day')['flowQuantity_delta'].mean()
+    plt.figure(figsize=(12, 6))
+    plt.plot(daily_avg.index, daily_avg, color='green', marker='o')
+    plt.xlabel("Date")
+    plt.ylabel("Average Water Usage (in Liters)")
+    plt.title("Daily Average Water Usage")
+    plt.savefig(f"{output_folder}/daily_avg.png")
+    plt.close()
+
+    print(f"All visualizations saved in {output_folder}/")
+
 if __name__ == "__main__":
     df = pd.read_csv("Data\cleaned_data.csv")
     explore_data(df)
