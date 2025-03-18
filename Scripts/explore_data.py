@@ -23,6 +23,29 @@ def explore_data(df):
     plt.savefig(f"{output_folder}/time_series.png") # Save figure
     plt.close()
 
+    ### 2. Histogram of Water Usage
+    plt.figure(figsize=(8, 5))
+    sns.histplot(df['flowQuantity_delta'], bins=50, kde=True)
+    plt.xlabel("Water Flow (in Liters)")
+    plt.ylabel("Frequency")
+    plt.title("Distribution of Water Flow")
+    plt.savefig(f"{output_folder}/histogram.png")
+    plt.close()
+
+    ### 3. Box Plot for Outliers
+    plt.figure(figsize=(8, 5))
+    sns.boxplot(y=df['flowQuantity_delta'])
+    plt.title("Box Plot of Water Usage")
+    plt.ylabel("Water Consumption (in Liters)")
+    plt.savefig(f"{output_folder}/boxplot.png")
+    plt.close()
+
+    ### 4. Pair Plot (Relationships between the variables)
+    numerical_features = ['flowQuantity_delta', 'stepIndex_delta', 'cycleIndex_delta']
+    sns.pairplot(df[numerical_features])
+    plt.savefig(f"{output_folder}/pairplot.png")
+    plt.close()
+
 if __name__ == "__main__":
     df = pd.read_csv("Data\cleaned_data.csv")
     explore_data(df)
