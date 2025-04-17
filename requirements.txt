@@ -4,5 +4,12 @@ matplotlib
 seaborn
 scikit-learn
 fpdf
-tensorflow
 torch
+joblib
+
+# backend (FastAPI + AWS)
+fastapi
+uvicorn[standard]
+pydantic
+boto3
+python-decouple
