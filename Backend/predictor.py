@@ -17,10 +17,37 @@ IFOREST_PATH  = os.path.join(MODELS_DIR, "isolation_forest_model.pk1")
 AUTOENCODER_PATH = os.path.join(MODELS_DIR, "autoencoder_model_pytorch.pth")
 SCALER_PATH      = os.path.join(MODELS_DIR, "scaler.pk1")
 
-# Loading the models
-iforest     = joblib.load(IFOREST_PATH)
-autoencoder = joblib.load(AUTOENCODER_PATH)
-scaler      = joblib.load(SCALER_PATH)
+# 2) Assert that they actually exist
+for name, path in [
+    ("IsolationForest", IFOREST_PATH),
+    ("Autoencoder", AUTOENCODER_PATH),
+    ("Scaler", SCALER_PATH),
+]:
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"{name} file not found at: {path}")
+
+# 3) Load each in its own try/except so we know which one fails
+try:
+    iforest = joblib.load(IFOREST_PATH)
+    print("✅ Loaded IsolationForest from", IFOREST_PATH)
+except Exception as e:
+    print("❌ Failed to load IsolationForest from", IFOREST_PATH)
+    raise
+
+try:
+    # map to CPU in case GPU tensors are the culprit
+    autoencoder = torch.load(AUTOENCODER_PATH, map_location="cpu")
+    print("✅ Loaded Autoencoder from", AUTOENCODER_PATH)
+except Exception as e:
+    print("❌ Failed to load Autoencoder from", AUTOENCODER_PATH)
+    raise
+
+try:
+    scaler = joblib.load(SCALER_PATH)
+    print("✅ Loaded Scaler from", SCALER_PATH)
+except Exception as e:
+    print("❌ Failed to load Scaler from", SCALER_PATH)
+    raise
 
 def iforest_predict(flow: float) -> bool:
     """Return True if anomaly."""
