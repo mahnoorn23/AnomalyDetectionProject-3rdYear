@@ -18,9 +18,9 @@ class ThresholdRequest(BaseModel):
     threshold: float
 
 # Isolation Forest Endpoint
-@app.post("/predict/iforest")
+@app.post("/predict/{iforest}")
 def predict_iforest(req: PredictRequest):
-    timestamp = datetime.utcnow().isoformat()
+    timestamp = datetime.now(timezone.utc).isoformat()
     # Run IF model
     is_anomaly = iforest_predict(req.flow)
 
@@ -40,7 +40,7 @@ def predict_iforest(req: PredictRequest):
 
 
 # Autoencoder Endpoint
-@app.post("/predict/autoencoder")
+@app.post("/predict/{autoencoder}")
 def predict_autoencoder(req: PredictRequest):
     timestamp = datetime.now(timezone.utc).isoformat()
     # Load user threshold (must have been set via /threshold)
