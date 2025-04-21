@@ -2,6 +2,7 @@ import joblib
 import torch
 # from sklearn.ensemble import IsolationForest
 import os
+import pandas as pd
 
 # Loading the trained models
 # iforest: IsolationForest = joblib.load("..\Models\isolation_forest_model.pk1")
@@ -28,6 +29,8 @@ autoencoder = torch.load(AUTOENCODER_PATH, map_location="cpu")
 scaler      = joblib.load(SCALER_PATH)
 
 def iforest_predict(flow: float) -> bool:
+    # Wrapping into a DataFrame with the same column name it was trained on
+    df = pd.DataFrame({"flowQuantity_delta": [flow]})
     """Return True if anomaly."""
     return iforest.predict([[flow]])[0] == -1
 
