@@ -7,7 +7,7 @@ fpdf
 torch
 joblib
 
-# backend (FastAPI + AWS)
+# Backend (FastAPI + AWS)
 fastapi
 uvicorn[standard]
 pydantic
@@ -15,3 +15,8 @@ boto3
 python-decouple
 pytest
 moto[dynamodb]
+
+# Streamlit dashboard dependencies
+streamlit
+requests
+plotly-express
