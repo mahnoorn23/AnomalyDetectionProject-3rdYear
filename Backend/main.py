@@ -22,7 +22,7 @@ class ThresholdRequest(BaseModel):
 def predict_iforest(req: PredictRequest):
     timestamp = datetime.now(timezone.utc).isoformat()
     # Run IF model
-    is_anomaly = iforest_predict(req.flow)
+    is_anomaly = bool(iforest_predict(req.flow))
 
     # Save to history
     save_reading("iforest", req.flow, is_anomaly, timestamp)
@@ -49,7 +49,7 @@ def predict_autoencoder(req: PredictRequest):
         raise HTTPException(400, "Autoencoder threshold not set")
 
     # Run Autoencoder model
-    is_anomaly = autoencoder_predict(req.flow, threshold=thresh)
+    is_anomaly = bool(autoencoder_predict(req.flow, threshold=thresh))
 
     # Save to history
     save_reading("autoencoder", req.flow, is_anomaly, timestamp)
