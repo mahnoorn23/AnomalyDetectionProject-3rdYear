@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./Backend/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - TESTING=1
+
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: ./Dashboard/Dockerfile
+    ports:
+      - "8501:8501"
+    environment:
+      - API_BASE_URL=http://backend:8000
+    depends_on:
+      - backend
