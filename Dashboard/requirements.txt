@@ -1,0 +1,22 @@
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+fpdf
+torch
+joblib
+
+# Backend (FastAPI + AWS)
+fastapi
+uvicorn[standard]
+pydantic
+boto3
+python-decouple
+pytest
+moto[dynamodb]
+
+# Streamlit dashboard dependencies
+streamlit
+requests
+plotly-express
