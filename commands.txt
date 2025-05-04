@@ -1,0 +1,14 @@
+# To be ran in separate terminals
+# First Command 
+cd Backend
+# run
+$env: TESTING = "1"
+uvicorn main:app --reload --port 8000
+
+# Second Command
+cd Dashboard
+# run
+streamlit run app.py --server.port 8501
+
+# Docker Command
+docker compose up --build
